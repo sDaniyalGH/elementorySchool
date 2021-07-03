@@ -1,23 +1,31 @@
 val listOfids = arrayListOf<Int>()
 val listOfSchools = arrayListOf<School>()
+val listOfUsernames = arrayListOf<String>()
+val listOfModirs = arrayListOf<Modir>()
+lateinit var currentModir : Modir
 
 fun main(args: Array<String>) {
-   // println("Hello World!")
+    // println("Hello World!")
     firstPage()
 }
 
 fun firstPage() {
 
-    println("Enter Your Username")
-    val usernameInput = readLine();
-    println("Enter Your Password")
-    val passwordInput = readLine();
+    while (true) {
+        println("Enter Your Username")
+        val usernameInput = readLine();
+        println("Enter Your Password")
+        val passwordInput = readLine();
 
-    if (usernameInput == "admin" && passwordInput == "admin")
-        admin()
-    //else
+        if (usernameInput == "admin" && passwordInput == "admin")
+            admin()
 
-
+        for (item in listOfModirs)
+            if (usernameInput == item.usernameM && passwordInput == item.passwordM) {
+                currentModir = item
+                modir();
+            }
+    }
 }
 
 fun admin() {
@@ -49,9 +57,34 @@ fun admin() {
                 } else {
 
                     printSchools()
+                    println("\n Select The ID")
 
+                    val inputt = readLine();
+
+                    // TODO: ۰۳/۰۷/۲۰۲۱ if mistake
+                    for (item in listOfSchools)
+                        if (item.id == inputt!!.toInt()) {
+
+                            println("Enter Your Name ")
+                            val name = readLine()!!;
+                            println("Enter Your Username ")
+                            val username = readLine()!!;
+                            println("Enter Your Password ")
+                            val password = readLine()!!;
+                            val id = createId();
+
+                            val modir = Modir(name, username, password, id, item)
+                            listOfUsernames.add(username)
+                            listOfids.add(id)
+                            listOfModirs.add(modir)
+
+                        }
                 }
             }
+            "3" -> {
+                break
+            }
+
         }
     }
 }
@@ -73,26 +106,41 @@ fun printSchools() {
     println("-------------------------------")
     println("       ID       |      Name    ")
     println("-------------------------------")
-    for (item in listOfSchools){
+    for (item in listOfSchools) {
 
-        print(item.id )
+        print(item.id)
 
-        for (i in 0 until 16 - item.id.toString().length){
+        for (i in 0 until 16 - item.id.toString().length) {
             print(" ")
         }
         print("|")
 
-        print(item.name )
+        print(item.name)
 
-        for (i in 0 until 14 - item.name.length){
+        for (i in 0 until 14 - item.name.length) {
             print(" ")
         }
         println("|")
         println("-------------------------------")
 
 
-
-
     }
+
+}
+
+fun modir() {
+
+    println("\n\n Welcome Modir !!!!")
+    println("Name : ${currentModir.nameM}")
+
+    println("1-Lesson")
+    println("2-Klass")
+    println("3-Student")
+    println("4-Teacher")
+    println("5-Teacher")
+    println("6-See The Lessons Of Klass")
+    println("7-See The Students Of Klass")
+    println("8-See The Marks Of Students")
+    println("9-See The Average Of Klass")
 
 }
